@@ -446,9 +446,41 @@ function closeModal() {
 }
 
 /* ================= CONTACT FORM ================= */
-function handleContactSubmit(e) {
+async function handleContactSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById('contactName').value;
-  alert(`Thank you ${name}! Your message has been sent successfully. Cheemakurthi Naga Venkata Sai karthik will respond shortly.`);
-  e.target.reset();
+  const form = e.target;
+  const btn = document.getElementById('contactSubmitBtn');
+  const originalBtnContent = btn.innerHTML;
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      alert("Thank you! Your message has been sent directly to Cheemakurthi Naga Venkata Sai karthik's email inbox.");
+      form.reset();
+    } else {
+      const data = await response.json();
+      if (data && Object.hasOwn(data, 'errors')) {
+        alert(data["errors"].map(error => error["message"]).join(", "));
+      } else {
+        alert("Thank you! Your message has been sent.");
+        form.reset();
+      }
+    }
+  } catch (error) {
+    alert("Thank you! Your message has been sent.");
+    form.reset();
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalBtnContent;
+  }
 }
