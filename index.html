@@ -675,25 +675,25 @@
             </div>
           </div>
 
-          <form class="contact-form" onsubmit="handleContactSubmit(event)">
+          <form class="contact-form" action="https://formspree.io/f/mjyvodrk" method="POST" onsubmit="handleContactSubmit(event)">
             <h3 style="margin-bottom: 1.25rem;">Send Message</h3>
             
             <div class="form-group">
               <label class="form-label">Your Name</label>
-              <input type="text" id="contactName" class="form-control" required placeholder="John Doe">
+              <input type="text" name="name" id="contactName" class="form-control" required placeholder="John Doe">
             </div>
 
             <div class="form-group">
               <label class="form-label">Your Email</label>
-              <input type="email" id="contactEmail" class="form-control" required placeholder="john@example.com">
+              <input type="email" name="email" id="contactEmail" class="form-control" required placeholder="john@example.com">
             </div>
 
             <div class="form-group">
               <label class="form-label">Message</label>
-              <textarea id="contactMessage" class="form-control" rows="4" required placeholder="Hi Karthik, I would love to discuss an opportunity..."></textarea>
+              <textarea name="message" id="contactMessage" class="form-control" rows="4" required placeholder="Hi Karthik, I would love to discuss an opportunity..."></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+            <button type="submit" id="contactSubmitBtn" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
           </form>
         </div>
       </div>
