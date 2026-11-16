@@ -20,16 +20,23 @@
 </head>
 <body>
 
+  <!-- ================= AMBIENT GLOW BACKGROUND ================= -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+  </div>
+
   <!-- ================= HEADER & NAV ================= -->
-  <header>
+  <header id="siteHeader">
     <div class="container nav-container">
       <a href="#" class="nav-logo">
         <span class="gradient-text">Karthik.ai</span>
         <span class="nav-logo-badge">PORTFOLIO</span>
       </a>
 
-      <!-- Role Switcher -->
-      <div class="role-switcher-wrapper">
+      <!-- Desktop Role Switcher -->
+      <div class="role-switcher-wrapper header-role-switcher">
         <button class="role-btn active" data-role="all"><i class="fa-solid fa-layer-group"></i> All-Rounder</button>
         <button class="role-btn" data-role="analyst"><i class="fa-solid fa-chart-pie"></i> Data Analyst</button>
         <button class="role-btn" data-role="ai_dev"><i class="fa-solid fa-brain"></i> AI Developer</button>
@@ -37,7 +44,7 @@
       </div>
 
       <ul class="nav-links">
-        <li><a href="#about" class="nav-link">Overview</a></li>
+        <li><a href="#about" class="nav-link active">Overview</a></li>
         <li><a href="#resumes" class="nav-link">Resumes</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#lab" class="nav-link">AI Lab</a></li>
@@ -45,6 +52,32 @@
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#contact" class="btn btn-outline btn-sm">Contact</a></li>
       </ul>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-nav-drawer" id="mobileDrawer">
+      <ul class="mobile-nav-links">
+        <li><a href="#about" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>Overview</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+        <li><a href="#resumes" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>Resumes</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+        <li><a href="#skills" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>Skills</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+        <li><a href="#lab" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>AI Lab</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+        <li><a href="#experience" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>Experience</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+        <li><a href="#projects" class="mobile-nav-link" onclick="closeMobileDrawer()"><span>Projects</span> <i class="fa-solid fa-chevron-right"></i></a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary" onclick="closeMobileDrawer()"><i class="fa-solid fa-paper-plane"></i> Get in Touch</a>
+    </div>
+
+    <!-- Mobile Sub-Header Role Bar -->
+    <div class="mobile-role-bar">
+      <button class="role-btn active" data-role="all"><i class="fa-solid fa-layer-group"></i> All-Rounder</button>
+      <button class="role-btn" data-role="analyst"><i class="fa-solid fa-chart-pie"></i> Data Analyst</button>
+      <button class="role-btn" data-role="ai_dev"><i class="fa-solid fa-brain"></i> AI Developer</button>
+      <button class="role-btn" data-role="swe"><i class="fa-solid fa-code"></i> Software Eng.</button>
     </div>
   </header>
 
@@ -64,7 +97,7 @@
           </h1>
 
           <div class="hero-subtitle">
-            <span id="typing-text" class="mono-text">Data Analyst & AI Developer</span>
+            <span id="typing-text" class="mono-text">Data Analyst & AI Developer</span><span class="typing-cursor"></span>
           </div>
 
           <p class="hero-bio" id="hero-bio-desc">
@@ -118,12 +151,12 @@
     </section>
 
     <!-- ================= RESUME HUB ================= -->
-    <section id="resumes" style="background: rgba(15, 23, 42, 0.4);">
+    <section id="resumes" style="background: rgba(15, 23, 42, 0.45);">
       <div class="container">
         <div class="section-header">
           <span class="section-tag">// Tailored Resumes</span>
           <h2 class="section-title">View & Download Resumes</h2>
-          <p class="section-desc">Extracted from all 4 resume versions. Click "Preview Interactive Resume" to view directly in a popup or "View / Print PDF" to open in a new tab.</p>
+          <p class="section-desc">Extracted from all 4 specialized resume versions. Click "Preview Resume" to inspect inside the interactive modal or "View / Print PDF" to open a print-ready document.</p>
         </div>
 
         <div class="resumes-grid">
@@ -139,7 +172,7 @@
                 <li>8k+ restaurant review sentiment insights (12% quality boost)</li>
               </ul>
             </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <div class="resume-card-actions">
               <button class="btn btn-primary btn-sm" onclick="openResumeModal('data_analyst')"><i class="fa-solid fa-eye"></i> Preview Resume</button>
               <a href="resumes/resume_data_analyst.html" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-print"></i> View / Print PDF</a>
             </div>
@@ -157,7 +190,7 @@
                 <li>Multi-modal mental fitness & biometrics tracker</li>
               </ul>
             </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <div class="resume-card-actions">
               <button class="btn btn-primary btn-sm" onclick="openResumeModal('ai_developer')"><i class="fa-solid fa-eye"></i> Preview Resume</button>
               <a href="resumes/resume_ai_developer.html" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-print"></i> View / Print PDF</a>
             </div>
@@ -175,7 +208,7 @@
                 <li>Telemetry scripts across MySQL & Azure Monitor</li>
               </ul>
             </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <div class="resume-card-actions">
               <button class="btn btn-primary btn-sm" onclick="openResumeModal('adas_engineer')"><i class="fa-solid fa-eye"></i> Preview Resume</button>
               <a href="resumes/resume_adas_engineer.html" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-print"></i> View / Print PDF</a>
             </div>
@@ -193,7 +226,7 @@
                 <li>Flask microservices & Django REST APIs for analytics</li>
               </ul>
             </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <div class="resume-card-actions">
               <button class="btn btn-primary btn-sm" onclick="openResumeModal('software_engineer')"><i class="fa-solid fa-eye"></i> Preview Resume</button>
               <a href="resumes/resume_software_engineer.html" target="_blank" class="btn btn-outline btn-sm"><i class="fa-solid fa-print"></i> View / Print PDF</a>
             </div>
@@ -226,7 +259,7 @@
     </section>
 
     <!-- ================= INTERACTIVE AI & ANALYTICS LAB ================= -->
-    <section id="lab" style="background: rgba(11, 15, 25, 0.8);">
+    <section id="lab" style="background: rgba(11, 15, 25, 0.85);">
       <div class="container">
         <div class="section-header">
           <span class="section-tag">// Live Playground</span>
@@ -250,30 +283,30 @@
               </div>
 
               <div class="emotion-controls">
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-face-smile" style="color: var(--primary);"></i> Real-Time Facial Landmark Classifier</h3>
-                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-face-smile" style="color: var(--cyan);"></i> Real-Time Facial Landmark Classifier</h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.55;">
                   Simulating feature extraction and facial landmark mapping (OpenCV + CNN) for 5 distinct emotions. Click sample presets to run live inference.
                 </p>
 
-                <div style="margin-bottom: 1rem;">
-                  <button class="text-sample-btn" onclick="triggerEmotion('happy')">Preset: Happy</button>
-                  <button class="text-sample-btn" onclick="triggerEmotion('surprise')">Preset: Surprise</button>
-                  <button class="text-sample-btn" onclick="triggerEmotion('anger')">Preset: Anger</button>
-                  <button class="text-sample-btn" onclick="triggerEmotion('neutral')">Preset: Neutral</button>
+                <div style="margin-bottom: 1.2rem;">
+                  <button class="text-sample-btn" onclick="triggerEmotion('happy')"><i class="fa-regular fa-smile"></i> Preset: Happy</button>
+                  <button class="text-sample-btn" onclick="triggerEmotion('surprise')"><i class="fa-regular fa-surprise"></i> Preset: Surprise</button>
+                  <button class="text-sample-btn" onclick="triggerEmotion('anger')"><i class="fa-regular fa-angry"></i> Preset: Anger</button>
+                  <button class="text-sample-btn" onclick="triggerEmotion('neutral')"><i class="fa-regular fa-meh"></i> Preset: Neutral</button>
                 </div>
 
                 <div class="emotion-bar-item">
-                  <div class="emotion-label-row"><span>Happiness</span><span id="prob-happy" class="mono-text">92%</span></div>
-                  <div class="skill-bar-bg"><div id="bar-happy" class="skill-bar-fill" style="width: 92%; background: var(--accent);"></div></div>
+                  <div class="emotion-label-row"><span>Happiness</span><span id="prob-happy" class="mono-text" style="color: var(--emerald);">92%</span></div>
+                  <div class="skill-bar-bg"><div id="bar-happy" class="skill-bar-fill" style="width: 92%; background: var(--emerald);"></div></div>
                 </div>
 
                 <div class="emotion-bar-item">
-                  <div class="emotion-label-row"><span>Surprise</span><span id="prob-surprise" class="mono-text">5%</span></div>
-                  <div class="skill-bar-bg"><div id="bar-surprise" class="skill-bar-fill" style="width: 5%; background: var(--primary);"></div></div>
+                  <div class="emotion-label-row"><span>Surprise</span><span id="prob-surprise" class="mono-text" style="color: var(--cyan);">5%</span></div>
+                  <div class="skill-bar-bg"><div id="bar-surprise" class="skill-bar-fill" style="width: 5%; background: var(--cyan);"></div></div>
                 </div>
 
                 <div class="emotion-bar-item">
-                  <div class="emotion-label-row"><span>Neutral</span><span id="prob-neutral" class="mono-text">3%</span></div>
+                  <div class="emotion-label-row"><span>Neutral</span><span id="prob-neutral" class="mono-text" style="color: var(--text-dim);">3%</span></div>
                   <div class="skill-bar-bg"><div id="bar-neutral" class="skill-bar-fill" style="width: 3%; background: var(--text-dim);"></div></div>
                 </div>
               </div>
@@ -284,10 +317,10 @@
           <div id="tab-fake-news" class="lab-content">
             <div class="fake-news-box">
               <div>
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> NLP Article Authenticity Engine</h3>
-                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Paste news text or select a test sample to evaluate linguistic sensationalism, tone bias, and source credibility scoring.</p>
+                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved" style="color: var(--cyan);"></i> NLP Article Authenticity Engine</h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.55;">Paste news text or select a test sample to evaluate linguistic sensationalism, tone bias, and source credibility scoring.</p>
 
-                <div>
+                <div style="margin-bottom: 0.8rem;">
                   <button class="text-sample-btn" onclick="loadFakeNewsSample(1)">Sample 1: Sensational Clickbait</button>
                   <button class="text-sample-btn" onclick="loadFakeNewsSample(2)">Sample 2: Verified Academic News</button>
                 </div>
@@ -296,8 +329,8 @@
                 <button class="btn btn-primary btn-sm" onclick="analyzeFakeNews()"><i class="fa-solid fa-play"></i> Run NLP Classification</button>
               </div>
 
-              <div style="background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem;">
-                <h4 style="margin-bottom: 1rem; color: var(--primary);">NLP Output & Credibility Matrix</h4>
+              <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--cyan);">NLP Output & Credibility Matrix</h4>
                 <div id="nlp-results">
                   <div style="text-align: center; color: var(--text-dim); padding: 2rem;">Click "Run NLP Classification" to see real-time analysis</div>
                 </div>
@@ -309,10 +342,10 @@
           <div id="tab-sentiment" class="lab-content">
             <div class="fake-news-box">
               <div>
-                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-utensils" style="color: var(--primary);"></i> Restaurant Review Sentiment Sandbox</h3>
-                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Analyze customer feedback to extract specific operational aspects (Food Quality, Service, Ambiance, Pricing).</p>
+                <h3 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-utensils" style="color: var(--cyan);"></i> Restaurant Review Sentiment Sandbox</h3>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.55;">Analyze customer feedback to extract specific operational aspects (Food Quality, Service, Ambiance, Pricing).</p>
 
-                <div>
+                <div style="margin-bottom: 0.8rem;">
                   <button class="text-sample-btn" onclick="loadReviewSample(1)">Sample: Great food, poor service</button>
                   <button class="text-sample-btn" onclick="loadReviewSample(2)">Sample: Overpriced but lovely ambiance</button>
                 </div>
@@ -321,8 +354,8 @@
                 <button class="btn btn-primary btn-sm" onclick="analyzeReview()"><i class="fa-solid fa-magnifying-glass"></i> Extract Aspects & Sentiment</button>
               </div>
 
-              <div style="background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem;">
-                <h4 style="margin-bottom: 1rem; color: var(--accent);">Aspect Mining Output</h4>
+              <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--emerald);">Aspect Mining Output</h4>
                 <div id="review-results">
                   <div style="text-align: center; color: var(--text-dim); padding: 2rem;">Input a review to extract business insights</div>
                 </div>
@@ -352,23 +385,23 @@
                 </div>
               </div>
 
-              <div style="background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                  <h4 style="font-size: 0.95rem;">Sales Trend & DAX Measures</h4>
+              <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <h4 style="font-size: 0.98rem; font-weight: 700;">Sales Trend & DAX Measures</h4>
                   <div>
                     <button class="text-sample-btn" onclick="updateBiCategory('Electronics')">Electronics</button>
                     <button class="text-sample-btn" onclick="updateBiCategory('Apparel')">Apparel</button>
                     <button class="text-sample-btn" onclick="updateBiCategory('All')">All Categories</button>
                   </div>
                 </div>
-                <div style="height: 220px;">
+                <div style="height: 230px; position: relative;">
                   <canvas id="biSalesChart"></canvas>
                 </div>
               </div>
 
-              <div style="background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1rem;">
-                <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Customer Segmentation (K-Means Clustering)</h4>
-                <div style="height: 220px;">
+              <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.2rem;">
+                <h4 style="font-size: 0.98rem; font-weight: 700; margin-bottom: 0.8rem;">Customer Segmentation (K-Means Clustering)</h4>
+                <div style="height: 230px; position: relative;">
                   <canvas id="biClusterChart"></canvas>
                 </div>
               </div>
@@ -392,7 +425,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
                 <div>
                   <h3 class="timeline-role">Technical Support Engineer</h3>
                   <div class="timeline-company"><i class="fa-solid fa-building"></i> Lumos Learning • Bengaluru, Karnataka</div>
@@ -413,7 +446,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
                 <div>
                   <h3 class="timeline-role">Data Analytics & AI Intern</h3>
                   <div class="timeline-company"><i class="fa-solid fa-laptop-code"></i> AICTE • Remote</div>
@@ -433,7 +466,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
                 <div>
                   <h3 class="timeline-role">Python / Data Analytics Intern</h3>
                   <div class="timeline-company"><i class="fa-solid fa-graduation-cap"></i> Teachnook • Bengaluru, Karnataka</div>
@@ -452,7 +485,7 @@
     </section>
 
     <!-- ================= FEATURED PROJECTS ================= -->
-    <section id="projects" style="background: rgba(15, 23, 42, 0.4);">
+    <section id="projects" style="background: rgba(15, 23, 42, 0.45);">
       <div class="container">
         <div class="section-header">
           <span class="section-tag">// Portfolio Highlights</span>
@@ -470,7 +503,7 @@
               <div>
                 <h3 class="project-title">Real-Time Emotional Recognition System</h3>
                 <p class="project-desc">Facial expression recognition pipeline classifying 5 emotions (happiness, sadness, anger, surprise, neutrality) using facial landmark mapping & CNNs in OpenCV.</p>
-                <div class="skill-tags" style="margin-bottom: 1.25rem;">
+                <div class="skill-tags" style="margin-bottom: 1.4rem;">
                   <span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">CNN</span><span class="tag">Scikit-learn</span><span class="tag">Kaggle</span>
                 </div>
               </div>
@@ -481,13 +514,13 @@
           <!-- Project 2 -->
           <div class="project-card">
             <div class="project-banner">
-              <i class="fa-solid fa-newspaper project-banner-icon" style="color: var(--secondary);"></i>
+              <i class="fa-solid fa-newspaper project-banner-icon" style="color: var(--indigo);"></i>
             </div>
             <div class="project-body">
               <div>
                 <h3 class="project-title">Fake News Detection System</h3>
                 <p class="project-desc">ML + NLP classification pipeline evaluating linguistic patterns, article tone, bias markers, and source credibility scoring to eliminate false positives.</p>
-                <div class="skill-tags" style="margin-bottom: 1.25rem;">
+                <div class="skill-tags" style="margin-bottom: 1.4rem;">
                   <span class="tag">Python</span><span class="tag">NLP</span><span class="tag">TF-IDF</span><span class="tag">Classification</span>
                 </div>
               </div>
@@ -498,13 +531,13 @@
           <!-- Project 3 -->
           <div class="project-card">
             <div class="project-banner">
-              <i class="fa-solid fa-heart-pulse project-banner-icon" style="color: var(--accent);"></i>
+              <i class="fa-solid fa-heart-pulse project-banner-icon" style="color: var(--emerald);"></i>
             </div>
             <div class="project-body">
               <div>
                 <h3 class="project-title">Mental Fitness Tracker</h3>
                 <p class="project-desc">Multi-modal data science tool ingesting biometric signals, sleep, physical activity, and applying NLP on journal logs to detect stress & recommend self-care.</p>
-                <div class="skill-tags" style="margin-bottom: 1.25rem;">
+                <div class="skill-tags" style="margin-bottom: 1.4rem;">
                   <span class="tag">Data Science</span><span class="tag">NLP</span><span class="tag">Predictive Analytics</span>
                 </div>
               </div>
@@ -515,13 +548,13 @@
           <!-- Project 4 -->
           <div class="project-card">
             <div class="project-banner">
-              <i class="fa-solid fa-chart-pie project-banner-icon" style="color: var(--accent-orange);"></i>
+              <i class="fa-solid fa-chart-pie project-banner-icon" style="color: var(--amber);"></i>
             </div>
             <div class="project-body">
               <div>
                 <h3 class="project-title">E-Commerce Sales BI Dashboard</h3>
                 <p class="project-desc">Power BI analytics suite tracking Revenue, AOV, Customer Lifetime Value (CLV), and Conversion Rates using advanced DAX measures & K-Means clustering.</p>
-                <div class="skill-tags" style="margin-bottom: 1.25rem;">
+                <div class="skill-tags" style="margin-bottom: 1.4rem;">
                   <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Customer Clustering</span><span class="tag">KPIs</span>
                 </div>
               </div>
@@ -532,13 +565,13 @@
           <!-- Project 5 -->
           <div class="project-card">
             <div class="project-banner">
-              <i class="fa-solid fa-comments project-banner-icon" style="color: var(--primary);"></i>
+              <i class="fa-solid fa-comments project-banner-icon" style="color: var(--cyan);"></i>
             </div>
             <div class="project-body">
               <div>
                 <h3 class="project-title">Sentiment Analysis on Reviews</h3>
                 <p class="project-desc">NLP pipeline categorizing Yelp & Google reviews into positive/negative/neutral and extracting actionable operational insights across food, service, ambiance, and price.</p>
-                <div class="skill-tags" style="margin-bottom: 1.25rem;">
+                <div class="skill-tags" style="margin-bottom: 1.4rem;">
                   <span class="tag">AWS Lambda</span><span class="tag">Django REST</span><span class="tag">NLP</span><span class="tag">MySQL</span>
                 </div>
               </div>
@@ -561,13 +594,13 @@
         <div class="edu-cert-grid">
           <!-- Left: Education -->
           <div>
-            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> Formal Education</h3>
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem;"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> Formal Education</h3>
             
             <div class="edu-card">
               <div class="edu-degree">B.Tech – Computer Science (AI & ML Specialization)</div>
               <div class="edu-school">Sri Venkateswara College of Engineering & Technology, Chittoor (JNTUA)</div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                <span style="font-size: 0.85rem; color: var(--text-dim);">2020 – 2024</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
+                <span style="font-size: 0.88rem; color: var(--text-dim);">2020 – 2024</span>
                 <span class="edu-score">CGPA: 7.84 / 10</span>
               </div>
             </div>
@@ -575,8 +608,8 @@
             <div class="edu-card">
               <div class="edu-degree">Intermediate – MPC</div>
               <div class="edu-school">Narayana Junior College • BIE Andhra Pradesh</div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                <span style="font-size: 0.85rem; color: var(--text-dim);">2018 – 2020</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
+                <span style="font-size: 0.88rem; color: var(--text-dim);">2018 – 2020</span>
                 <span class="edu-score">CGPA: 7.53 / 10</span>
               </div>
             </div>
@@ -584,8 +617,8 @@
             <div class="edu-card">
               <div class="edu-degree">Secondary School Certificate (SSC)</div>
               <div class="edu-school">Sri Chaitanya Techno EM School • BSE Andhra Pradesh</div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
-                <span style="font-size: 0.85rem; color: var(--text-dim);">2017 – 2018</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
+                <span style="font-size: 0.88rem; color: var(--text-dim);">2017 – 2018</span>
                 <span class="edu-score">CGPA: 9.20 / 10</span>
               </div>
             </div>
@@ -593,31 +626,31 @@
 
           <!-- Right: Certifications -->
           <div>
-            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-award" style="color: var(--accent);"></i> Industry Certifications</h3>
+            <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem;"><i class="fa-solid fa-award" style="color: var(--emerald);"></i> Industry Certifications</h3>
 
             <div class="cert-card">
-              <div style="font-weight: 700; font-size: 0.95rem;">Accenture North America – Forage</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Data Analytics and Visualization Job Simulation</div>
+              <div style="font-weight: 700; font-size: 0.98rem; margin-bottom: 0.2rem;">Accenture North America – Forage</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Data Analytics and Visualization Job Simulation</div>
             </div>
 
             <div class="cert-card">
-              <div style="font-weight: 700; font-size: 0.95rem;">Tata Group – Forage</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Data Visualisation: Empowering Business with Effective Insights</div>
+              <div style="font-weight: 700; font-size: 0.98rem; margin-bottom: 0.2rem;">Tata Group – Forage</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Data Visualisation: Empowering Business with Effective Insights</div>
             </div>
 
             <div class="cert-card">
-              <div style="font-weight: 700; font-size: 0.95rem;">Tata Group – Forage</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Cybersecurity Analyst Job Simulation</div>
+              <div style="font-weight: 700; font-size: 0.98rem; margin-bottom: 0.2rem;">Tata Group – Forage</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Cybersecurity Analyst Job Simulation</div>
             </div>
 
             <div class="cert-card">
-              <div style="font-weight: 700; font-size: 0.95rem;">Infosys Springboard</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Artificial Intelligence Mastery Certification</div>
+              <div style="font-weight: 700; font-size: 0.98rem; margin-bottom: 0.2rem;">Infosys Springboard</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Artificial Intelligence Mastery Certification</div>
             </div>
 
             <div class="cert-card">
-              <div style="font-weight: 700; font-size: 0.95rem;">Udemy & AICTE</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Data Science & Machine Learning Using Python</div>
+              <div style="font-weight: 700; font-size: 0.98rem; margin-bottom: 0.2rem;">Udemy & AICTE</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Data Science & Machine Learning Using Python</div>
             </div>
           </div>
         </div>
@@ -625,7 +658,7 @@
     </section>
 
     <!-- ================= CONTACT ================= -->
-    <section id="contact" style="background: rgba(11, 15, 25, 0.95);">
+    <section id="contact" style="background: rgba(8, 12, 22, 0.95);">
       <div class="container">
         <div class="section-header">
           <span class="section-tag">// Get In Touch</span>
@@ -635,7 +668,7 @@
 
         <div class="contact-grid">
           <div class="contact-info-card">
-            <h3 style="margin-bottom: 1.5rem;">Contact Information</h3>
+            <h3 style="margin-bottom: 1.6rem; font-size: 1.35rem;">Contact Information</h3>
 
             <div class="contact-item">
               <div class="contact-icon"><i class="fa-solid fa-user"></i></div>
@@ -665,31 +698,31 @@
               <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
               <div>
                 <div class="contact-label">Location</div>
-                <div class="contact-value" style="font-size: 0.9rem; font-weight: normal;">Bengaluru, Karnataka | Nellore, Andhra Pradesh</div>
+                <div class="contact-value" style="font-weight: 500;">Bengaluru, Karnataka | Nellore, Andhra Pradesh</div>
               </div>
             </div>
 
-            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <div style="display: flex; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap;">
               <a href="https://linkedin.com/in/cheemkurthi-naga-venkata-sai-karthik-2b6b9a265/" target="_blank" class="btn btn-outline btn-sm"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
               <a href="https://github.com/karthiksai0022" target="_blank" class="btn btn-outline btn-sm"><i class="fa-brands fa-github"></i> GitHub</a>
             </div>
           </div>
 
           <form class="contact-form" action="https://formspree.io/f/mjyvodrk" method="POST" onsubmit="handleContactSubmit(event)">
-            <h3 style="margin-bottom: 1.25rem;">Send Message</h3>
+            <h3 style="margin-bottom: 1.4rem; font-size: 1.35rem;">Send Message</h3>
             
             <div class="form-group">
-              <label class="form-label">Your Name</label>
+              <label class="form-label" for="contactName">Your Name</label>
               <input type="text" name="name" id="contactName" class="form-control" required placeholder="John Doe">
             </div>
 
             <div class="form-group">
-              <label class="form-label">Your Email</label>
+              <label class="form-label" for="contactEmail">Your Email</label>
               <input type="email" name="email" id="contactEmail" class="form-control" required placeholder="john@example.com">
             </div>
 
             <div class="form-group">
-              <label class="form-label">Message</label>
+              <label class="form-label" for="contactMessage">Message</label>
               <textarea name="message" id="contactMessage" class="form-control" rows="4" required placeholder="Hi Karthik, I would love to discuss an opportunity..."></textarea>
             </div>
 
@@ -702,14 +735,19 @@
 
   <footer>
     <div class="container">
-      <p>© 2026 Cheemakurthi Naga Venkata Sai karthik. All Rights Reserved.</p>
+      <p>© 2026 Cheemakurthi Naga Venkata Sai karthik. All Rights Reserved. Crafted with Precision.</p>
     </div>
   </footer>
 
+  <!-- Floating Back to Top Button -->
+  <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
   <!-- ================= MODAL DIALOG ================= -->
   <div id="infoModal" class="modal-backdrop">
-    <div class="modal-card" style="max-width: 900px; width: 95%;">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
       <div id="modalContent"></div>
     </div>
   </div>

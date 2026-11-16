@@ -1,16 +1,125 @@
 /* ==========================================================================
    Cheemakurthi Naga Venkata Sai karthik - Portfolio Script
-   Interactive Role Switcher, AI Demos, Canvas Animation, Power BI Charts
+   Ultra-Responsive Controller: Mobile Nav, Typewriter, Synced Role Switcher,
+   Responsive Emotion Canvas, Power BI Charts, Formspree Submissions & Modals
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initMobileNav();
+  initScrollSpyAndHeader();
+  initBackToTop();
   initSkills();
   initRoleSwitcher();
+  initTypewriter();
   initEmotionCanvas();
   initBiCharts();
   initFakeNewsDemo();
   initReviewDemo();
 });
+
+/* ================= MOBILE NAVIGATION ================= */
+function initMobileNav() {
+  const toggleBtn = document.getElementById('navToggleBtn');
+  const drawer = document.getElementById('mobileDrawer');
+  const icon = document.getElementById('toggleIcon');
+
+  if (!toggleBtn || !drawer) return;
+
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = drawer.classList.contains('open');
+    if (isOpen) {
+      closeMobileDrawer();
+    } else {
+      drawer.classList.add('open');
+      if (icon) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      }
+    }
+  });
+
+  // Close drawer if clicking outside
+  document.addEventListener('click', (e) => {
+    if (drawer.classList.contains('open') && !drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+      closeMobileDrawer();
+    }
+  });
+}
+
+function closeMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  const icon = document.getElementById('toggleIcon');
+  if (drawer) drawer.classList.remove('open');
+  if (icon) {
+    icon.classList.remove('fa-xmark');
+    icon.classList.add('fa-bars');
+  }
+}
+
+/* ================= HEADER SCROLL & SCROLL SPY ================= */
+function initScrollSpyAndHeader() {
+  const header = document.getElementById('siteHeader');
+  const sections = document.querySelectorAll('section[id]');
+  const desktopNavLinks = document.querySelectorAll('.nav-links .nav-link');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-links .mobile-nav-link');
+
+  window.addEventListener('scroll', () => {
+    // Header shadow on scroll
+    if (header) {
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+
+    // Scroll Spy active indicator
+    let currentSectionId = '';
+    const scrollPos = window.scrollY + 140;
+
+    sections.forEach(section => {
+      const top = section.offsetTop;
+      const height = section.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        currentSectionId = section.getAttribute('id');
+      }
+    });
+
+    if (currentSectionId) {
+      desktopNavLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+          link.classList.add('active');
+        }
+      });
+
+      mobileNavLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}
+
+/* ================= BACK TO TOP ================= */
+function initBackToTop() {
+  const btn = document.getElementById('backToTopBtn');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 350) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
 /* ================= SKILLS DATA & RENDERER ================= */
 const skillsData = [
@@ -32,15 +141,14 @@ const skillsData = [
 ];
 
 function initSkills() {
-  const container = document.getElementById('skills-container');
   renderSkills(skillsData);
 
   const filterBtns = document.querySelectorAll('[data-skill-filter]');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       filterBtns.forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      const filter = e.target.getAttribute('data-skill-filter');
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-skill-filter');
       const filtered = filter === 'all' ? skillsData : skillsData.filter(s => s.category === filter);
       renderSkills(filtered);
     });
@@ -49,6 +157,8 @@ function initSkills() {
 
 function renderSkills(skills) {
   const container = document.getElementById('skills-container');
+  if (!container) return;
+
   container.innerHTML = skills.map(skill => `
     <div class="skill-card">
       <div class="skill-header">
@@ -69,104 +179,180 @@ function renderSkills(skills) {
 const roleData = {
   all: {
     badge: "B.Tech AI & ML (JNTUA '24) • Tech Support Engineer @ Lumos Learning",
-    typing: "Data Analyst & AI Developer",
+    titles: ["Data Analyst & AI Developer", "Computer Vision & NLP Specialist", "Power BI & Cloud Engineer"],
     bio: "Results-driven computer scientist specializing in AI & Machine Learning. Experienced in transforming raw unstructured data into actionable insights, deploying real-time Computer Vision & NLP pipelines, building DAX Power BI dashboards, and optimizing SaaS support operations."
   },
   analyst: {
     badge: "Specialization: Power BI, SQL, DAX, EDA & Business Intelligence",
-    typing: "Lead Data Analyst & BI Specialist",
+    titles: ["Lead Data Analyst & BI Specialist", "SQL & DAX Analytics Pro", "Telemetry & KPIs Optimization Engineer"],
     bio: "Expert in synthesizing complex datasets into high-impact dashboards, writing optimized SQL queries, tracking critical KPIs (AOV, CLV, Revenue), and automating telemetry parsing to cut resolution times by 50%."
   },
   ai_dev: {
     badge: "Specialization: Computer Vision, OpenCV, CNNs, NLP & Machine Learning",
-    typing: "AI Developer & Machine Learning Engineer",
+    titles: ["AI Developer & Machine Learning Engineer", "Computer Vision Specialist (OpenCV)", "Deep Learning & NLP Researcher"],
     bio: "Focused on designing, training, and deploying production-ready machine learning & deep learning models. Created real-time facial expression classifiers (96% accuracy), fake news detectors, and NLP sentiment pipelines."
   },
   swe: {
     badge: "Specialization: Python, C#, .NET, Flask, Django, Docker & Azure",
-    typing: "Software & Cloud Analytics Engineer",
+    titles: ["Software & Cloud Analytics Engineer", "C# & .NET SaaS Troubleshooter", "Docker & Kubernetes Deployment Specialist"],
     bio: "Proficient in end-to-end software engineering, REST API development, C# debugging in .NET environments, containerizing microservices with Docker/Kubernetes, and managing Azure DevOps incident workflows."
   }
 };
 
+let currentRoleKey = 'all';
+
 function initRoleSwitcher() {
-  const btns = document.querySelectorAll('.role-btn');
-  btns.forEach(btn => {
+  const allRoleBtns = document.querySelectorAll('.role-btn');
+
+  allRoleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
       const role = btn.getAttribute('data-role');
+      if (!role) return;
+
+      currentRoleKey = role;
       const data = roleData[role] || roleData.all;
-      
-      document.getElementById('role-badge-text').textContent = data.badge;
-      document.getElementById('typing-text').textContent = data.typing;
-      document.getElementById('hero-bio-desc').textContent = data.bio;
+
+      // Sync active states across both desktop and mobile bars
+      allRoleBtns.forEach(b => {
+        if (b.getAttribute('data-role') === role) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+
+      const badgeElem = document.getElementById('role-badge-text');
+      const bioElem = document.getElementById('hero-bio-desc');
+
+      if (badgeElem) badgeElem.textContent = data.badge;
+      if (bioElem) bioElem.textContent = data.bio;
+
+      // Restart typewriter on role change
+      startTypewriterSequence(data.titles);
     });
   });
 }
 
-/* ================= LAB 1: FACIAL EMOTION CANVAS ================= */
+/* ================= TYPEWRITER ANIMATION ================= */
+let typewriterTimeout = null;
+
+function initTypewriter() {
+  const initialTitles = roleData.all.titles;
+  startTypewriterSequence(initialTitles);
+}
+
+function startTypewriterSequence(titles) {
+  if (typewriterTimeout) clearTimeout(typewriterTimeout);
+
+  const textElement = document.getElementById('typing-text');
+  if (!textElement) return;
+
+  let titleIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function type() {
+    const currentTitle = titles[titleIndex % titles.length];
+
+    if (isDeleting) {
+      charIndex--;
+      textElement.textContent = currentTitle.substring(0, charIndex);
+    } else {
+      charIndex++;
+      textElement.textContent = currentTitle.substring(0, charIndex);
+    }
+
+    let typeSpeed = isDeleting ? 40 : 80;
+
+    if (!isDeleting && charIndex === currentTitle.length) {
+      typeSpeed = 1800; // pause at full word
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      titleIndex++;
+      typeSpeed = 400; // pause before next word
+    }
+
+    typewriterTimeout = setTimeout(type, typeSpeed);
+  }
+
+  type();
+}
+
+/* ================= LAB 1: RESPONSIVE FACIAL EMOTION CANVAS ================= */
 let currentEmotion = 'happy';
 
 function initEmotionCanvas() {
   const canvas = document.getElementById('emotionCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  
-  canvas.width = 400;
-  canvas.height = 300;
-  
+
+  function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
   let angle = 0;
 
   function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw grid background
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
+    const width = canvas.parentElement.clientWidth;
+    const height = canvas.parentElement.clientHeight;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Grid background
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
     ctx.lineWidth = 1;
-    for (let x = 0; x < canvas.width; x += 20) {
+    for (let x = 0; x < width; x += 22) {
       ctx.beginPath();
       ctx.moveTo(x, 0);
-      ctx.lineTo(x, canvas.height);
+      ctx.lineTo(x, height);
       ctx.stroke();
     }
-    for (let y = 0; y < canvas.height; y += 20) {
+    for (let y = 0; y < height; y += 22) {
       ctx.beginPath();
       ctx.moveTo(0, y);
-      ctx.lineTo(canvas.width, y);
+      ctx.lineTo(width, y);
       ctx.stroke();
     }
 
-    // Draw Face Outline
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    
+    // Scale face based on viewport width
+    const scale = Math.min(width / 400, 1.2);
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Face Outline
     ctx.strokeStyle = '#38bdf8';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(centerX, centerY, 70, 90, 0, 0, Math.PI * 2);
+    ctx.ellipse(centerX, centerY, 65 * scale, 85 * scale, 0, 0, Math.PI * 2);
     ctx.stroke();
 
     // Landmark Points Mesh
     const points = [
-      { x: centerX - 30, y: centerY - 25 }, // Left Eye
-      { x: centerX + 30, y: centerY - 25 }, // Right Eye
-      { x: centerX, y: centerY + 10 },      // Nose Tip
-      { x: centerX - 35, y: centerY + 45 }, // Mouth Left
-      { x: centerX + 35, y: centerY + 45 }, // Mouth Right
-      { x: centerX - 45, y: centerY - 45 }, // Eyebrow L1
-      { x: centerX - 15, y: centerY - 45 }, // Eyebrow L2
-      { x: centerX + 15, y: centerY - 45 }, // Eyebrow R1
-      { x: centerX + 45, y: centerY - 45 }, // Eyebrow R2
+      { x: centerX - 28 * scale, y: centerY - 22 * scale }, // Left Eye
+      { x: centerX + 28 * scale, y: centerY - 22 * scale }, // Right Eye
+      { x: centerX, y: centerY + 10 * scale },             // Nose Tip
+      { x: centerX - 32 * scale, y: centerY + 42 * scale }, // Mouth Left
+      { x: centerX + 32 * scale, y: centerY + 42 * scale }, // Mouth Right
+      { x: centerX - 42 * scale, y: centerY - 42 * scale }, // Eyebrow L1
+      { x: centerX - 14 * scale, y: centerY - 42 * scale }, // Eyebrow L2
+      { x: centerX + 14 * scale, y: centerY - 42 * scale }, // Eyebrow R1
+      { x: centerX + 42 * scale, y: centerY - 42 * scale }, // Eyebrow R2
     ];
 
     // Connect mesh lines
-    ctx.strokeStyle = 'rgba(129, 140, 248, 0.4)';
+    ctx.strokeStyle = 'rgba(129, 140, 248, 0.35)';
     ctx.beginPath();
     points.forEach((p, i) => {
       points.forEach((p2, j) => {
-        if (i < j && Math.hypot(p.x - p2.x, p.y - p2.y) < 60) {
+        if (i < j && Math.hypot(p.x - p2.x, p.y - p2.y) < 55 * scale) {
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
         }
@@ -175,39 +361,39 @@ function initEmotionCanvas() {
     ctx.stroke();
 
     // Draw Mouth Curve based on Emotion
-    ctx.strokeStyle = currentEmotion === 'happy' ? '#34d399' : (currentEmotion === 'anger' ? '#f87171' : '#38bdf8');
+    ctx.strokeStyle = currentEmotion === 'happy' ? '#34d399' : (currentEmotion === 'anger' ? '#fb7185' : '#38bdf8');
     ctx.lineWidth = 3;
     ctx.beginPath();
     if (currentEmotion === 'happy') {
-      ctx.arc(centerX, centerY + 30, 25, 0.2, Math.PI - 0.2);
+      ctx.arc(centerX, centerY + 28 * scale, 24 * scale, 0.2, Math.PI - 0.2);
     } else if (currentEmotion === 'anger') {
-      ctx.arc(centerX, centerY + 55, 25, Math.PI + 0.2, -0.2);
+      ctx.arc(centerX, centerY + 52 * scale, 24 * scale, Math.PI + 0.2, -0.2);
     } else if (currentEmotion === 'surprise') {
-      ctx.ellipse(centerX, centerY + 45, 12, 20, 0, 0, Math.PI * 2);
+      ctx.ellipse(centerX, centerY + 42 * scale, 10 * scale, 18 * scale, 0, 0, Math.PI * 2);
     } else {
-      ctx.moveTo(centerX - 25, centerY + 45);
-      ctx.lineTo(centerX + 25, centerY + 45);
+      ctx.moveTo(centerX - 24 * scale, centerY + 42 * scale);
+      ctx.lineTo(centerX + 24 * scale, centerY + 42 * scale);
     }
     ctx.stroke();
 
-    // Draw landmark dots with pulse
+    // Landmark dots
     angle += 0.05;
     points.forEach(p => {
       ctx.fillStyle = '#34d399';
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 3 + Math.sin(angle) * 1, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, (3 + Math.sin(angle)) * scale, 0, Math.PI * 2);
       ctx.fill();
     });
 
     // Bounding Box
     ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(centerX - 80, centerY - 100, 160, 200);
+    ctx.strokeRect(centerX - 75 * scale, centerY - 95 * scale, 150 * scale, 190 * scale);
 
     // Label
     ctx.fillStyle = '#38bdf8';
-    ctx.font = '12px JetBrains Mono';
-    ctx.fillText(`DETECTED: ${currentEmotion.toUpperCase()} (96.4%)`, centerX - 75, centerY - 110);
+    ctx.font = `${Math.max(11, 13 * scale)}px 'JetBrains Mono', monospace`;
+    ctx.fillText(`DETECTED: ${currentEmotion.toUpperCase()} (96.4%)`, centerX - 70 * scale, centerY - 104 * scale);
 
     requestAnimationFrame(draw);
   }
@@ -222,14 +408,22 @@ function triggerEmotion(emotion) {
   const anger = emotion === 'anger' ? 85 : 5;
   const neutral = emotion === 'neutral' ? 90 : 10;
 
-  document.getElementById('prob-happy').textContent = happy + '%';
-  document.getElementById('bar-happy').style.width = happy + '%';
-  
-  document.getElementById('prob-surprise').textContent = surprise + '%';
-  document.getElementById('bar-surprise').style.width = surprise + '%';
+  const pH = document.getElementById('prob-happy');
+  const pS = document.getElementById('prob-surprise');
+  const pN = document.getElementById('prob-neutral');
 
-  document.getElementById('prob-neutral').textContent = neutral + '%';
-  document.getElementById('bar-neutral').style.width = neutral + '%';
+  const bH = document.getElementById('bar-happy');
+  const bS = document.getElementById('bar-surprise');
+  const bN = document.getElementById('bar-neutral');
+
+  if (pH) pH.textContent = happy + '%';
+  if (bH) bH.style.width = happy + '%';
+
+  if (pS) pS.textContent = surprise + '%';
+  if (bS) bS.style.width = surprise + '%';
+
+  if (pN) pN.textContent = neutral + '%';
+  if (bN) bN.style.width = neutral + '%';
 }
 
 /* ================= LAB 2: FAKE NEWS DEMO ================= */
@@ -239,33 +433,37 @@ const newsSamples = {
 };
 
 function initFakeNewsDemo() {
-  document.getElementById('fakeNewsText').value = newsSamples[1];
+  const el = document.getElementById('fakeNewsText');
+  if (el) el.value = newsSamples[1];
 }
 
 function loadFakeNewsSample(num) {
-  document.getElementById('fakeNewsText').value = newsSamples[num];
+  const el = document.getElementById('fakeNewsText');
+  if (el) el.value = newsSamples[num];
 }
 
 function analyzeFakeNews() {
-  const text = document.getElementById('fakeNewsText').value;
+  const el = document.getElementById('fakeNewsText');
   const resultsDiv = document.getElementById('nlp-results');
-  
+  if (!el || !resultsDiv) return;
+
+  const text = el.value;
   const isFake = text.toLowerCase().includes('shocking') || text.toLowerCase().includes('secret') || text.toLowerCase().includes('miracle');
-  
+
   resultsDiv.innerHTML = `
-    <div style="margin-bottom: 1rem;">
-      <span class="badge-tag" style="background: ${isFake ? 'rgba(248,113,113,0.15)' : 'rgba(52,211,153,0.15)'}; color: ${isFake ? '#f87171' : '#34d399'};">
+    <div style="margin-bottom: 1.1rem;">
+      <span class="badge-tag" style="background: ${isFake ? 'rgba(251,113,133,0.15)' : 'rgba(52,211,153,0.15)'}; color: ${isFake ? '#fb7185' : '#34d399'}; border-color: ${isFake ? 'rgba(251,113,133,0.3)' : 'rgba(52,211,153,0.3)'}">
         ${isFake ? '⚠️ CLASSIFIED AS UNVERIFIED / FAKE' : '✅ CLASSIFIED AS AUTHENTIC / REAL'}
       </span>
     </div>
 
-    <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+    <div style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 0.85rem; line-height: 1.6;">
       <strong>Authenticity Score:</strong> ${isFake ? '18%' : '94%'} <br>
       <strong>Sensationalism Index:</strong> ${isFake ? '89% (High Tone Bias)' : '12% (Neutral Academic Tone)'}
     </div>
 
-    <div style="font-size: 0.8rem; color: var(--text-dim);">
-      Detected Indicators: ${isFake ? 'Exclamation Overuse, Clickbait Lexicon, Unverified Claim' : 'Academic Syntax, Institution Cross-Reference Match'}
+    <div style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.5;">
+      Detected Indicators: ${isFake ? 'Exclamation Overuse, Clickbait Lexicon, Unverified Claim' : 'Academic Syntax, Peer-Reviewed Institution Cross-Reference Match'}
     </div>
   `;
 }
@@ -277,26 +475,29 @@ const reviewSamples = {
 };
 
 function initReviewDemo() {
-  document.getElementById('reviewText').value = reviewSamples[1];
+  const el = document.getElementById('reviewText');
+  if (el) el.value = reviewSamples[1];
 }
 
 function loadReviewSample(num) {
-  document.getElementById('reviewText').value = reviewSamples[num];
+  const el = document.getElementById('reviewText');
+  if (el) el.value = reviewSamples[num];
 }
 
 function analyzeReview() {
-  const text = document.getElementById('reviewText').value;
+  const el = document.getElementById('reviewText');
   const resultsDiv = document.getElementById('review-results');
-  
+  if (!el || !resultsDiv) return;
+
   resultsDiv.innerHTML = `
-    <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 1.2rem;">
       <span class="aspect-pill aspect-pos"><i class="fa-solid fa-thumbs-up"></i> Food Quality: Positive</span>
       <span class="aspect-pill aspect-neg"><i class="fa-solid fa-thumbs-down"></i> Service: Negative</span>
       <span class="aspect-pill aspect-pos"><i class="fa-solid fa-thumbs-up"></i> Ambiance: Positive</span>
     </div>
     
-    <div style="font-size: 0.88rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 8px;">
-      <strong>Actionable Business Insight:</strong> <br>
+    <div style="font-size: 0.92rem; color: var(--text-muted); background: rgba(0,0,0,0.35); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-glass); line-height: 1.6;">
+      <strong style="color: var(--cyan);">Actionable Business Insight:</strong> <br>
       "Customer sentiment is driven positively by culinary taste, but kitchen dispatch bottlenecking causes severe customer dissatisfaction around wait times."
     </div>
   `;
@@ -318,9 +519,10 @@ function initBiCharts() {
         label: 'Monthly Revenue ($K)',
         data: [120, 145, 130, 180, 210, 195, 240, 275],
         borderColor: '#38bdf8',
-        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+        backgroundColor: 'rgba(56, 189, 248, 0.12)',
         fill: true,
-        tension: 0.3
+        tension: 0.35,
+        borderWidth: 2.5
       }]
     },
     options: {
@@ -328,8 +530,8 @@ function initBiCharts() {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+        x: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+        y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }
       }
     }
   });
@@ -341,17 +543,20 @@ function initBiCharts() {
         {
           label: 'High-Value VIPs',
           data: [{x: 80, y: 90}, {x: 85, y: 85}, {x: 95, y: 92}, {x: 75, y: 88}],
-          backgroundColor: '#34d399'
+          backgroundColor: '#34d399',
+          pointRadius: 6
         },
         {
           label: 'Regular Shoppers',
           data: [{x: 40, y: 50}, {x: 45, y: 55}, {x: 50, y: 60}, {x: 35, y: 48}],
-          backgroundColor: '#38bdf8'
+          backgroundColor: '#38bdf8',
+          pointRadius: 6
         },
         {
           label: 'At-Risk Bargainers',
           data: [{x: 10, y: 20}, {x: 15, y: 18}, {x: 20, y: 25}],
-          backgroundColor: '#fb923c'
+          backgroundColor: '#fbbf24',
+          pointRadius: 6
         }
       ]
     },
@@ -359,16 +564,21 @@ function initBiCharts() {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: { title: { display: true, text: 'Order Frequency', color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-        y: { title: { display: true, text: 'Monetary Spend ($)', color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+        x: { title: { display: true, text: 'Order Frequency', color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } },
+        y: { title: { display: true, text: 'Monetary Spend ($)', color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#94a3b8' } }
       }
     }
+  });
+
+  window.addEventListener('resize', () => {
+    if (salesChart) salesChart.resize();
+    if (clusterChart) clusterChart.resize();
   });
 }
 
 function updateBiCategory(cat) {
   if (!salesChart) return;
-  
+
   let newData = [120, 145, 130, 180, 210, 195, 240, 275];
   if (cat === 'Electronics') newData = [80, 95, 110, 140, 160, 175, 190, 220];
   if (cat === 'Apparel') newData = [40, 50, 45, 60, 75, 80, 95, 110];
@@ -382,7 +592,16 @@ function switchLabTab(tabId) {
   document.querySelectorAll('.lab-content').forEach(c => c.classList.remove('active'));
 
   event.currentTarget.classList.add('active');
-  document.getElementById(tabId).classList.add('active');
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add('active');
+
+  // Trigger chart resize if Power BI tab was activated
+  if (tabId === 'tab-powerbi') {
+    setTimeout(() => {
+      if (salesChart) salesChart.resize();
+      if (clusterChart) clusterChart.resize();
+    }, 100);
+  }
 }
 
 /* ================= MODALS & RESUME VIEWER ================= */
@@ -397,12 +616,15 @@ function openResumeModal(type) {
   const title = resumeTitles[type] || "Interactive Resume Viewer";
   const fileUrl = `resumes/resume_${type}.html`;
 
-  document.getElementById('modalContent').innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-right: 2rem;">
-      <h3 style="font-size: 1.25rem; color: var(--primary);">${title}</h3>
+  const modalContent = document.getElementById('modalContent');
+  if (!modalContent) return;
+
+  modalContent.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding-right: 2.5rem; flex-wrap: wrap; gap: 0.8rem;">
+      <h3 style="font-size: 1.25rem; color: var(--cyan);">${title}</h3>
       <a href="${fileUrl}" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open / Save PDF</a>
     </div>
-    <div style="background: white; border-radius: 8px; overflow: hidden; height: 75vh;">
+    <div style="background: white; border-radius: var(--radius-md); overflow: hidden; height: 75vh;">
       <iframe src="${fileUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
   `;
@@ -415,35 +637,73 @@ function openProjectModal(pId) {
 
   if (pId === 'emotion') {
     details = `
-      <h3 style="margin-bottom: 0.5rem; color: var(--primary);">Real-Time Emotional Recognition System</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Major B.Tech Project • Python, OpenCV, Scikit-learn, CNN, Kaggle</p>
-      <div style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); margin-bottom: 1rem;">
-        [Live Video / Stream] -> [OpenCV Frame Capture] -> [Facial Landmark Detection] -> [Feature Vector Extraction] -> [CNN Classifier] -> [Emotions: Happy, Sad, Anger, Surprise, Neutral (96% Acc)]
+      <h3 style="margin-bottom: 0.5rem; color: var(--cyan);">Real-Time Emotional Recognition System</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">Major B.Tech Project • Python, OpenCV, Scikit-learn, CNN, Kaggle</p>
+      <div style="background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.82rem; color: var(--emerald); margin-bottom: 1.2rem; border: 1px solid var(--border-glass); line-height: 1.6;">
+        [Live Video / Stream] ➔ [OpenCV Frame Capture] ➔ [Facial Landmark Detection] ➔ [Feature Vector Extraction] ➔ [CNN Classifier] ➔ [Emotions: Happy, Sad, Anger, Surprise, Neutral (96% Acc)]
       </div>
-      <p style="color: var(--text-muted); font-size: 0.88rem;">Designed for human-computer interaction, customer sentiment analysis, and biometric mental health tracking.</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Designed for human-computer interaction, customer sentiment analysis, and biometric mental health tracking with real-time frame rates.</p>
     `;
   } else if (pId === 'fake_news') {
     details = `
-      <h3 style="margin-bottom: 0.5rem; color: var(--secondary);">Fake News Detection System</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Slashmark Project • Python, NLP, TF-IDF, Scikit-learn</p>
-      <div style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary); margin-bottom: 1rem;">
-        [Article Input] -> [NLP Preprocessing & Stopword Filtering] -> [Linguistic Pattern Analysis] -> [Source Credibility Scoring] -> [Authenticity Confidence Score Output]
+      <h3 style="margin-bottom: 0.5rem; color: var(--indigo);">Fake News Detection System</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">Slashmark Project • Python, NLP, TF-IDF, Scikit-learn</p>
+      <div style="background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.82rem; color: var(--cyan); margin-bottom: 1.2rem; border: 1px solid var(--border-glass); line-height: 1.6;">
+        [Article Input] ➔ [NLP Preprocessing & Stopword Filtering] ➔ [Linguistic Pattern Analysis] ➔ [Source Credibility Scoring] ➔ [Authenticity Confidence Score Output]
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Combines syntactic sentiment metrics with trusted source database cross-referencing to eliminate false positives in sensational articles.</p>
+    `;
+  } else if (pId === 'fitness') {
+    details = `
+      <h3 style="margin-bottom: 0.5rem; color: var(--emerald);">Mental Fitness Tracker</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">Slashmark Project • Python, ML, NLP, Scikit-learn</p>
+      <div style="background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.82rem; color: var(--emerald); margin-bottom: 1.2rem; border: 1px solid var(--border-glass); line-height: 1.6;">
+        [Biometric Signals + Mood Logs] ➔ [NLP Sentiment Journaling Analysis] ➔ [Predictive Stress Engine] ➔ [Personalized Wellness Recommendations]
+      </div>
+    `;
+  } else if (pId === 'powerbi') {
+    details = `
+      <h3 style="margin-bottom: 0.5rem; color: var(--amber);">E-Commerce Sales BI Dashboard</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">Techtip24 • Power BI Desktop, DAX Measures, Python, Kaggle</p>
+      <div style="background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.82rem; color: var(--amber); margin-bottom: 1.2rem; border: 1px solid var(--border-glass); line-height: 1.6;">
+        [Raw Transactions] ➔ [DAX Measure Engine (Revenue, AOV, CLV)] ➔ [K-Means Customer Clustering] ➔ [Dynamic Slicers & Geospatial Insights]
       </div>
     `;
   } else {
     details = `
-      <h3 style="margin-bottom: 0.5rem; color: var(--accent);">Project Architectural Specs</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">Demonstrates end-to-end data pipeline design, clean code architecture, scalable deployment, and quantifiable business results.</p>
+      <h3 style="margin-bottom: 0.5rem; color: var(--cyan);">Sentiment Analysis on Restaurant Reviews</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">AICTE Internship • Python, AWS Lambda, Django REST, MySQL</p>
+      <div style="background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.82rem; color: var(--cyan); margin-bottom: 1.2rem; border: 1px solid var(--border-glass); line-height: 1.6;">
+        [8k+ Yelp/Google Reviews] ➔ [NLP Aspect Mining] ➔ [Django REST API Endpoint] ➔ [12% Service Improvement Recommendations]
+      </div>
     `;
   }
 
-  document.getElementById('modalContent').innerHTML = details;
+  const modalContent = document.getElementById('modalContent');
+  if (modalContent) modalContent.innerHTML = details;
   document.getElementById('infoModal').classList.add('active');
 }
 
 function closeModal() {
-  document.getElementById('infoModal').classList.remove('active');
+  const modal = document.getElementById('infoModal');
+  if (modal) modal.classList.remove('active');
 }
+
+// Close modal when clicking outside backdrop
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('infoModal');
+  if (modal && e.target === modal) {
+    closeModal();
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeMobileDrawer();
+  }
+});
 
 /* ================= CONTACT FORM ================= */
 async function handleContactSubmit(e) {
